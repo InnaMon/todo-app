@@ -1,15 +1,18 @@
 <template>
   <div id="app">
-    <TodoList v-bind:todos="todoList"/>
+    <Header />
+    <TodoList v-bind:todos="todoList" v-on:del-todo="deleteTodo"/>
   </div>
 </template>
 
 <script>
+import Header from './components/layout/Header.vue';
 import TodoList from './components/TodoList.vue';
 
 export default { 
   name: 'app',
   components: {
+    Header,
     TodoList
   },
   data() {
@@ -21,16 +24,21 @@ export default {
           completed: false
         },
         {
-          id: 1,
-          title: "Todo Two",
-          completed: true
+          id: 2,
+          title: "Todo Two", 
+          completed: false
         },
         {
-          id: 1,
+          id: 3,
           title: "Todo Three",
           completed: false
         }
       ]
+    }
+  },
+  methods: {
+    deleteTodo(id) {
+      this.todoList = this.todoList.filter(todo => todo.id !== id);
     }
   }
 }
