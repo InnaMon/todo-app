@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Header />
-    <AddTodo />
+    <AddTodo v-on:add-todo="addTodo"/>
     <TodoList v-bind:todos="todoList" v-on:del-todo="deleteTodo"/>
   </div>
 </template>
@@ -42,6 +42,9 @@ export default {
   methods: {
     deleteTodo(id) {
       this.todoList = this.todoList.filter(todo => todo.id !== id);
+    },
+    addTodo(newTodo) {
+      this.todoList = [...this.todoList, newTodo];
     }
   }
 }
