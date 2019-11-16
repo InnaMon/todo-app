@@ -20,32 +20,40 @@ export default {
   },
   data() {
     return {
-      todoList: [
-        {
-          id: 1,
-          title: "Todo One",
-          completed: false
-        },
-        {
-          id: 2,
-          title: "Todo Two", 
-          completed: false
-        },
-        {
-          id: 3,
-          title: "Todo Three",
-          completed: false
-        }
-      ]
+      todoList: []
     }
   },
   methods: {
     deleteTodo(id) {
-      this.todoList = this.todoList.filter(todo => todo.id !== id);
+      fetch(`https://jsonplaceholder.typicode.com/todos/${id}`, {
+        method: 'DELETE'
+        // body: JSON.stringify({id: '5bdcdfa40f0a326f858feae0'})
+      })
+      .then(response => {
+        this.todoList = this.todoList.filter(todo => todo.id !== id)
+        console.log('DELETE reponse', response);
+      })
+      .catch(err => console.log(err))
     },
     addTodo(newTodo) {
-      this.todoList = [...this.todoList, newTodo];
+      const { title, completed } = newTodo;
+      console.log('checking newData', title, completed);
+      return fetch('https://jsonplaceholder.typicode.com/todos', {
+        method: 'POST',
+        body: JSON.stringify(title, completed)
+      })
+      .then(response => response.json())
+      .then(response => {
+        // this.todoList = [...this.todoList, response.data];
+        console.log('POST response', response);
+      })
+      .catch(err => console.log(err))
     }
+  },
+  created() {
+    fetch('https://jsonplaceholder.typicode.com/todos?_limit=5')
+    .then(response => response.json())
+    .then(data => this.todoList = data);
   }
 }
 </script>
