@@ -44,6 +44,6 @@ export default {
       border-radius: 50%;
       cursor: pointer;
       float: right;
-      margin-right: 40px;
+      margin-right: 10px;
   }
 </style>
